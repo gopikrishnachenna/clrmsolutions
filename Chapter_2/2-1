@@ -1,0 +1,50 @@
+#2-1 Insertion sort on small arrays in merge sort
+
+Although merge sort runs in O(nlgn) worst-case time and insertion sort runs in O(n^2) worst-case time, the constant factors in insertion sort can make it faster in practice for small problem sizes on many machines. Thus, it makes sense to coarsen the leaves of the recursion by using insertion sort within merge sort when subproblems become sufficiently small. Consider a modification to merge sort in which n=k sublists of length k are sorted using insertion sort and then merged using the standard merging mechanism, where k is a value to be determined.
+
+Insertion Sort Pseudo Code 
+
+INSERTION-SORT(A)
+
+1 for j = 2 to A.length
+2 	key = A[j]
+3 	// Insert A[j] into the sorted sequence A[1 . . j - 1]
+4 	i = j - 1
+5 	while i > 0 and A[i] > key
+6 		A[i + 1] = A[i]
+7 		i = i -1
+8 	A[i + 1] = key
+
+Merge Sort Pseudo Code
+
+MERGE(A, p, q, r)
+
+1 n1 = q - p + 1
+2 n2 = r - q
+3 let L[1 . . n1 + 1] and R[1 . . n2 + 1] be new arrays
+4 for i = 1 to n1
+5 	L[i] = A[p + i - 1]
+6 for j = 1 to n2
+7 	R[i] = A[q + j]
+8 L[n1 + 1] = infinity
+9 R[n2 + 1] = infinity
+10 i = 1
+11 j = 1
+12 for k = p to r
+13 	if L[i] <= R[j]
+14		A[k] = L[i]
+15		i = i + 1
+16 	else 
+17 		A[k] = R[j]
+18		j = j + 1
+
+MERGE-SORT(A, p, r)
+
+1 if p < r
+2 	q = [(p + r)/2]
+3	MERGE-SORT(A, p, q)
+4       MERGE-SORT(A, q + 1, r)
+5       MERGE(A, p, q, r)
+
+a. Show that insertion sort can sort the n=k sublists, each of length k, in O(nk) worst-case time.
+

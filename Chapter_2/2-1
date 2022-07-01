@@ -1,4 +1,4 @@
-#2-1 Insertion sort on small arrays in merge sort
+2-1 Insertion sort on small arrays in merge sort
 
 Although merge sort runs in O(nlgn) worst-case time and insertion sort runs in O(n^2) worst-case time, the constant factors in insertion sort can make it faster in practice for small problem sizes on many machines. Thus, it makes sense to coarsen the leaves of the recursion by using insertion sort within merge sort when subproblems become sufficiently small. Consider a modification to merge sort in which n=k sublists of length k are sorted using insertion sort and then merged using the standard merging mechanism, where k is a value to be determined.
 
@@ -48,3 +48,33 @@ MERGE-SORT(A, p, r)
 
 a. Show that insertion sort can sort the n=k sublists, each of length k, in O(nk) worst-case time.
 
+	The insertion sort has a known worst-case time of O(n^2). Now the inserstion sort on the sublist of length k will be O(k^2). As there are n/k sublist each of which have to be sorted the total time would be
+
+	O(n/k * k^2) = O(nk)
+
+b. Show how to merge the sublists in O(nlg(n/k)) worst-case time.
+
+	Considering a tree diagram for the split of the sequence the combine time for each layer/level of the tree will be n. Because every layer/level will contain all the n elements to be combined into the lists. Now the number of layers will depend on how much n can be split so that the length of the sublist will be n.
+
+	If we assume that the number of levels is x then (n / 2^x) ~ k.
+
+	That gives x = lg(n/k). 
+
+	We have to do the combine for each layer except for the last layer. That number will be lg(n/k).
+
+	Total worst time = O(nlg(n/k))
+
+c. Given that the modified algorithm runs in O(nk + nlg(n/k)) worst-case time, what is the largest value of k as a function of n for which the modified algorithm has the same running time as standard merge sort, in terms of O-notation?
+
+	The worst case time for merge sort would be O(nlgn)
+
+	The worst case time for above algo is
+
+	O(nk + nlg(n/k)) = O(nk + nlgn - nlgk)  // nk where k is a function of n should not be higher than nlgn. So lets assume k is lgn
+			 = O(nlgn + nlgn - nlglgn)
+			 = O(2nlgn - nlglgn)
+			 = O(nlgn)
+
+d. How should we choose k in practice?
+
+	We should choose k in such a way that the insert sort should not take more than the time taken by merge sort. That would depend on the constants which in turn depend on the computing time. 
